@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <title>toi aussi - Benzeri Hero</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo"> toi aussi</div>
+    <nav class="nav-links">
+    <a href="kadın.html">Kadın</a>
+    <a href="erkek.html">Erkek</a>
+    
+
+    </nav>
+    <div class="icons">
+  <div class="icon" title="Sepet" id="cartIcon">👜</div>
+</div>
+
+<script>
+  document.getElementById('cartIcon').addEventListener('click', function() {
+    window.location.href = 'sepet.html';
+  });
+</script>
+  </header>
+
+  <main>
+   <section class="hero">
+
+ <a href="#">
+   <img src="assets/foto.png" alt="toi aussi hero">
+
+ </a>
+
+ <div class="hero__content">
+   <div class="hero__title">Yeni Sezon</div>
+   <a class="hero__cta" href="#collections">Keşfet</a>
+ </div>
+
+</section>
+
+      
+
+  </main>
+
+  <script>
+    document.querySelectorAll('.hero__cta, #scrollBtn').forEach(el=>{
+      el.addEventListener('click', (e)=>{
+        e.preventDefault();
+        document.querySelector('#collections').scrollIntoView({behavior:'smooth'});
+      })
+    })
+
+    const scrollBtn = document.getElementById('scrollBtn');
+    scrollBtn.addEventListener('keydown',(e)=>{ if(e.key === 'Enter') document.querySelector('#collections').scrollIntoView({behavior:'smooth'}); })
+  </script>
+
+
+<div class="search-overlay" id="searchBox">
+
+  <div class="search-modal">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Ürün ara..."
+    >
+
+    <ul id="searchResults"></ul>
+
+    <button id="closeSearch">Kapat</button>
+
+  </div>
+
+</div>
+
+</body>
+</html>
