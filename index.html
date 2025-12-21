@@ -1,78 +1,33 @@
 <!doctype html>
 <html>
 <head>
-  <title>toi aussi - Benzeri Hero</title>
-<link rel="stylesheet" href="style.css">
+  <title>toi aussi</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <header class="header">
-    <div class="logo"> toi aussi</div>
-    <nav class="nav-links">
-    <a href="kadın.html">Kadın</a>
+
+<header class="header">
+  <div class="logo"><a href="index.html">toi aussi</a></div>
+
+  <nav class="nav-links">
+    <a href="kadin.html">Kadın</a>
     <a href="erkek.html">Erkek</a>
-    
+    <a href="hakkimizda.html">Hakkımızda</a>
+    <a href="sorular.html">SSS</a>
+    <a href="iletisim.html">İletişim</a>
+  </nav>
 
-    </nav>
-    <div class="icons">
-  <div class="icon" title="Sepet" id="cartIcon">👜</div>
-</div>
-
-<script>
-  document.getElementById('cartIcon').addEventListener('click', function() {
-    window.location.href = 'sepet.html';
-  });
-</script>
-  </header>
-
-  <main>
-   <section class="hero">
-
- <a href="#">
-   <img src="assets/foto.png" alt="toi aussi hero">
-
- </a>
-
- <div class="hero__content">
-   <div class="hero__title">Yeni Sezon</div>
-   <a class="hero__cta" href="#collections">Keşfet</a>
- </div>
-
-</section>
-
-      
-
-  </main>
-
-  <script>
-    document.querySelectorAll('.hero__cta, #scrollBtn').forEach(el=>{
-      el.addEventListener('click', (e)=>{
-        e.preventDefault();
-        document.querySelector('#collections').scrollIntoView({behavior:'smooth'});
-      })
-    })
-
-    const scrollBtn = document.getElementById('scrollBtn');
-    scrollBtn.addEventListener('keydown',(e)=>{ if(e.key === 'Enter') document.querySelector('#collections').scrollIntoView({behavior:'smooth'}); })
-  </script>
-
-
-<div class="search-overlay" id="searchBox">
-
-  <div class="search-modal">
-
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Ürün ara..."
-    >
-
-    <ul id="searchResults"></ul>
-
-    <button id="closeSearch">Kapat</button>
-
+  <div class="icons">
+<a href="sepet.html" class="icon sepet-link">Sepet</a>
   </div>
+</header>
 
-</div>
+<main>
+  <section class="hero">
+    <img src="assets/foto.png" alt="toi aussi hero">
+  </section>
+</main>
 
 </body>
 </html>

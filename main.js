@@ -1,148 +1,86 @@
-function scrollToProducts(){
-    window.scrollTo({
-        top: window.innerHeight,
-        behavior: "smooth"
-    });
-}
+var cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-
-const hero = document.querySelector(".hero");
-
-if(hero){
-    hero.addEventListener("mouseenter", ()=>{
-        hero.style.transform = "scale(1.03)";
-    });
-
-    hero.addEventListener("mouseleave", ()=>{
-        hero.style.transform = "scale(1)";
-    });
-}
-
-<script>
-const products = [
-  "Oversize Hoodie",
-  "Basic T-shirt",
-  "Eşofman Altı",
-  "Crop Sweathirt"
-];
-
-
-const searchBtn = document.getElementById("searchBtn");
-const searchBox = document.getElementById("searchBox");
-const searchInput = document.getElementById("searchInput");
-const resultBox = document.getElementById("searchResults");
-const closeSearch = document.getElementById("closeSearch");
-
-searchBtn.onclick = () => {
-  searchBox.style.display = "flex";
-  searchInput.focus();
+var activeProduct = {
+    title: "",
+    img: "",
+    price: "",
+    size: null
 };
-
-closeSearch.onclick = () => {
-  searchBox.style.display = "none";
-  searchInput.value = "";
-  resultBox.innerHTML = "";
-};
-
-searchInput.addEventListener("input", () => {
-  const value = searchInput.value.toLowerCase();
-  resultBox.innerHTML = "";
-
-  if(!value) return;
-
-  products
-    .filter(p => p.toLowerCase().includes(value))
-    .forEach(item => {
-      const li = document.createElement("li");
-      li.textContent = item;
-      resultBox.appendChild(li);
-    });
-});
-</script>
-<script>
-
-// TEMP STORAGE
-let activeProduct = {};
-let selectedSize = "";
-
-// OPEN PRODUCT
-function openProduct(title,img,price,desc){
-
-  document.getElementById("modal").style.display="flex";
-
-  document.getElementById("m-title").innerText=title;
-  document.getElementById("m-img").src=img;
-  document.getElementById("m-price").innerText=price;
-  document.getElementById("m-desc").innerText=desc;
-
-  activeProduct = {
-      title,img,price,desc,size:null
-  };
-
-  document.getElementById("selectedSize").innerText="";
-  document.querySelectorAll(".sizes button")
-          .forEach(btn=>btn.classList.remove("active"));
-}
-
-
-function closeModal(){
-  document.getElementById("modal").style.display="none";
-}
 
 
 function selectSize(el){
-  document.querySelectorAll(".sizes button")
-          .forEach(btn=>btn.classList.remove("active"));
+    var buttons = document.querySelectorAll(".sizes button");
 
-  el.classList.add("active");
+    for(var i=0;i<buttons.length;i++){
+        buttons[i].classList.remove("active");
+    }
 
-  selectedSize = el.innerText;
+    el.classList.add("active");
+    activeProduct.size = el.innerText;
 
-  document.getElementById("selectedSize").innerText =
-    "Seçilen beden: " + selectedSize;
-
-  activeProduct.size = selectedSize;
+    document.getElementById("selectedSize").innerText =
+        "Seçilen beden: " + activeProduct.size;
 }
 
 function addCart(){
-
-  if(!activeProduct.size){
-    alert("Önce beden seç!");
-    return;
-  }
-
-  let carts = JSON.parse(localStorage.getItem("cart")) || [];
-
-  carts.push(activeProduct);
-
-  localStorage.setItem("cart",JSON.stringify(carts));
-
-  alert("Sepete eklendi 👜");
-}
-
-</script>
-
-let selectedSize = null;
-
-// Her ürün için ayrı beden seçimi
-function addCart(title, img, price, el){
-    const productDiv = el.closest(".product"); // Butonun bulunduğu ürün
-    const size = productDiv.dataset.selectedSize;
-
-    if(!size){
-        alert("Önce beden seç!");
+    if(activeProduct.size == null){
+        alert("Lütfen beden seçiniz");
         return;
     }
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push({title, img, price, size});
+    cart.push(activeProduct);
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    alert("Sepete eklendi 👜");
+    alert("Ürün sepete eklendi");
 }
-function selectSize(el){
-    const container = el.closest(".product");
-    container.querySelectorAll(".sizes button").forEach(btn => btn.classList.remove("active"));
-    el.classList.add("active");
-    container.dataset.selectedSize = el.innerText; // ürün bazlı beden
+
+<script>
+
+var cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+var cartBox = document.getElementById("cartItems");
+var totalBox = document.getElementById("totalPrice");
+
+function loadCart(){
+    cartBox.innerHTML = "<h2>Sepetiniz</h2>";
+
+    if(cart.length == 0){
+        cartBox.innerHTML += "<p>Sepetiniz boş.</p>";
+        totalBox.innerText = "0 TL";
+        return;
+    }
+
+    var total = 0;
+
+    for(var i = 0; i < cart.length; i++){
+        var priceNumber = parseInt(cart[i].price);
+        total += priceNumber;
+
+        cartBox.innerHTML += `
+        <div class="item">
+            <img src="${cart[i].img}">
+            <div class="item-info">
+                <h3>${cart[i].title}</h3>
+                <p>Beden: ${cart[i].size}</p>
+                <p>Fiyat: ${cart[i].price}</p>
+            </div>
+            <button class="delete-btn" onclick="removeItem(${i})">❌ Sil</button>
+        </div>
+        `;
+    }
+
+    totalBox.innerText = total + " TL";
 }
+
+function removeItem(index){
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+}
+
+document.querySelector(".pay-btn").onclick = function(){
+    alert("Şu anda bakımdayız. Ödeme işlemi geçici olarak kapalıdır.");
+};
+
+loadCart();
+</script>
